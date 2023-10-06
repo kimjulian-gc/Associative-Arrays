@@ -69,8 +69,8 @@ public class AssociativeArray<K, V> {
    */
   public String toString() {
     String returnStr = "{ " + pairs[0].key + ": " + pairs[0].value;
-    for (int i = 1; i < pairs.length; i++) {
-      returnStr += ", " + pairs[0].key + ": " + pairs[0].value;
+    for (int i = 1; i < size; i++) {
+      returnStr += ", " + pairs[i].key + ": " + pairs[i].value;
     }
     returnStr += " }";
     return returnStr;
@@ -130,7 +130,8 @@ public class AssociativeArray<K, V> {
    */
   public void remove(K key) {
     try {
-      pairs[find(key)] = null;
+      pairs[find(key)] = pairs[size - 1];
+      pairs[--size] = null;
     } catch (KeyNotFoundException e) {
       // do nothing
     }
@@ -160,11 +161,7 @@ public class AssociativeArray<K, V> {
    */
   public int find(K key) throws KeyNotFoundException {
     for (int i = 0; i < size; i++) {
-      if (pairs[i] == null) {
-        i--;
-        continue;
-      }
-      if (pairs[i].key == key) return i;
+      if (pairs[i].key.equals(key)) return i;
     }
     throw new KeyNotFoundException();
   } // find(K)
